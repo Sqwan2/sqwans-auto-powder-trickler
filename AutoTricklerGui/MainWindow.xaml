@@ -1,0 +1,85 @@
+﻿<Window x:Class="AutoTricklerGui.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoTricklerGui"
+        mc:Ignorable="d"
+        Name="mainWindow"
+        Title="Sqwan's automatischer Pulver-Trickler für G&amp;G PLC" Height="350" Width="600">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Label 
+            Name="scaleValueLabel"
+            FontSize="50"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Grid.ColumnSpan="3"
+            Grid.RowSpan="2"
+            Content="{Binding CurrentScaleValueString}" />
+        <TextBox
+            Name="powderQty"
+            Grid.Row="2" 
+            Grid.Column="0" 
+            Margin="3"
+            FontSize="30"
+            Grid.ColumnSpan="2"
+            PreviewTextInput="powderQty_PreviewTextInput">49
+        </TextBox>
+        <Label Grid.Column="2" Grid.Row="2" Content="Grain" FontSize="30" Margin="3" />
+        <Button Name="Start" Grid.Column="3" Grid.Row="2" Margin="3" FontSize="30" Click="Start_Button_Click" IsEnabled="{Binding isEnabled}">Start</Button>
+        <Button Name="taraBtn" Grid.Column="2" Grid.Row="3" Margin="3" FontSize="30" Click="taraBtn_Click">Tara</Button>
+        <Button Grid.Column="3" Grid.Row="3" Margin="3" FontSize="30">CAL</Button>
+        <Button Grid.Column="1" Grid.Row="3" Margin="3" FontSize="30" Click="Reset_Button_Click">Reset</Button>
+        <Label Name="Stk" Grid.Column="0" Grid.Row="3" Content="{Binding NumberOfWeighings}" FontSize="30" Margin="3" />
+
+        <ComboBox Grid.Column="3" Grid.Row="0" FontSize="30" SelectedIndex="0" Margin="3" Name="comPorts" SelectionChanged="comPorts_SelectionChanged">
+        </ComboBox>
+        <ComboBox Grid.Column="3" Grid.Row="1" FontSize="30" SelectedIndex="4" Margin="3" Name="baudRates">
+            <ComboBoxItem Content="600" />
+            <ComboBoxItem Content="1200" />
+            <ComboBoxItem Content="2400" />
+            <ComboBoxItem Content="4800" />
+            <ComboBoxItem Content="9600" />
+        </ComboBox>
+
+        <ComboBox Grid.Column="4" Grid.Row="0" FontSize="30" SelectedIndex="0" Margin="3" Name="comPortsTrickler">
+        </ComboBox>
+        <ComboBox Grid.Column="4" Grid.Row="1" FontSize="30" SelectedIndex="4" Margin="3" Name="baudRatesTrickler">
+            <ComboBoxItem Content="600" />
+            <ComboBoxItem Content="1200" />
+            <ComboBoxItem Content="2400" />
+            <ComboBoxItem Content="4800" />
+            <ComboBoxItem Content="9600" />
+        </ComboBox>
+
+        <Separator Grid.Row="4" Grid.ColumnSpan="5" />
+        
+        <Label Name="minLabel" Grid.Column="0" Grid.Row="5" Content="Min" FontSize="30" Margin="3" />
+        <Label Name="maxLabel" Grid.Column="1" Grid.Row="5" Content="Max" FontSize="30" Margin="3" />
+        <Label Name="esLabel" Grid.Column="2" Grid.Row="5" Content="ES" FontSize="30" Margin="3" />
+        <Label Name="avgLabel" Grid.Column="3" Grid.Row="5" Content="AVG" FontSize="30" Margin="3" />
+        <Label Name="sdLabel" Grid.Column="4" Grid.Row="5" Content="SD" FontSize="30" Margin="3" />
+
+        <Label Name="minValueLabel" Grid.Column="0" Grid.Row="6" Content="{Binding MinWeight}" FontSize="30" Margin="3" />
+        <Label Name="maxValueLabel" Grid.Column="1" Grid.Row="6" Content="{Binding MaxWeight}" FontSize="30" Margin="3" />
+        <Label Name="esValueLabel" Grid.Column="2" Grid.Row="6" Content="{Binding ExtremeSpread}" FontSize="30" Margin="3" />
+        <Label Name="avgValueLabel" Grid.Column="3" Grid.Row="6" Content="{Binding AverageWeight}" FontSize="30" Margin="3" />
+        <Label Name="sdValueLabel" Grid.Column="4" Grid.Row="6" Content="{Binding StandardDeviation}" FontSize="30" Margin="3" />
+    </Grid>
+</Window>
