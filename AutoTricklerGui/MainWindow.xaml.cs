@@ -50,17 +50,15 @@ namespace AutoTricklerGui
             
             while (_scaleData.CurrentScaleValue < powderQtyD)
             {
-                if(_scaleData.CurrentScaleValue < (powderQtyD-5)) { 
+                if (_scaleData.CurrentScaleValue < (powderQtyD - 5))
+                {
                     byte[] bytesToSend = { 0xFF };
                     sp.Write(bytesToSend, 0, bytesToSend.Length);
-                } else if(_scaleData.CurrentScaleValue < (powderQtyD - 1)) {
-                    byte[] bytesToSend = { 0x7F };
-                    sp.Write(bytesToSend, 0, bytesToSend.Length);
-                } else  if(_scaleData.CurrentScaleValue < (powderQtyD - 0.3M)) {
-                    byte[] bytesToSend = { 0x0A };
-                    sp.Write(bytesToSend, 0, bytesToSend.Length);
                 } else {
-                    byte[] bytesToSend = { 0x03 };
+                    var remainindPowder = powderQtyD - _scaleData.CurrentScaleValue; //Allways less than 5 due to if-statement
+                    var portionOf255 = (remainindPowder / 5) * 255; // Speed ist defined from 0 to 255 (1 Byte). The speed is adapted to the portion of the remaining 5 grain. The closer it get's to 0 remaing grain, the slower the speed gets
+                    int speed = Decimal.ToInt16(portionOf255); //Speed has to be an int. Also transaction is limited to one byte. A decimal is always at least 2 bytes. By converting it the floating point number becomes an int, which can be converted to 1 byte if smaller than 255 (in case of uInt). 
+                    byte[] bytesToSend = { Convert.ToByte(speed) };
                     sp.Write(bytesToSend, 0, bytesToSend.Length);
                 }
                 Thread.Sleep(100);
