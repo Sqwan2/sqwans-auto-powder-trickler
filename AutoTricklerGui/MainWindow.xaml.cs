@@ -74,51 +74,6 @@ namespace AutoTricklerGui
         private void Start_Button_Click(object sender, RoutedEventArgs e) {
             powderQtyD = Convert.ToDecimal(powderQty.Text);
             new Thread(messure).Start();
-            /*_scaleData.addScaleValue(_scaleData.CurrentScaleValue);
-
-            SerialPort sp = new SerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
-            sp.Handshake = Handshake.None;
-            sp.ReadTimeout = 500;
-            sp.WriteTimeout = 500;
-            sp.Open();
-            decimal d = Convert.ToDecimal(powderQty.Text);
-            while (_scaleData.CurrentScaleValue < d)
-            {
-                sp.WriteLine("50000");
-                Thread.Sleep(1000);
-                sp.WriteLine("0");
-                //MessageBox.Show("Test");
-
-            }
-            
-            //string test = sp.ReadLine();
-            //MessageBox.Show(test);
-            sp.Close();
-            /*
-            decimal powderQtyDouble = 0.0M;
-            
-            try
-            {
-                powderQtyDouble = Convert.ToDecimal(powderQty.Text);
-                _serialPort.WriteLine("TARA");
-                
-                new Thread(() => {
-                    Thread.Sleep(3000);
-                    while (Decimal.Compare(scaleValue, powderQtyDouble) < 0)
-                    {
-                        _serialPort.WriteLine("Add");
-                        Thread.Sleep(50);
-                    }
-                }).Start();
-
-                this.count++;
-                Stk.Content = count + " Stk";
-            }
-            catch {
-                MessageBox.Show("Ihre Eingabe ist keine Zahl", "Fehler im Zahlenformat");
-                return;
-            }
-            */
         }
 
         private void Reset_Button_Click(object sender, RoutedEventArgs e) {
