@@ -38,8 +38,6 @@ namespace AutoTricklerGui
             serialPort.SerialConnection.DataReceived += new SerialDataReceivedEventHandler(scaleController.ScaleDataReceivedHandler);
 
             this.DataContext = _scaleData;
-
-            measureThread = new Thread(messure);
             new Thread(scaleController.requestScaleValue).Start();
         }
 
@@ -88,14 +86,16 @@ namespace AutoTricklerGui
                     MessageBox.Show("Es läuft bereits ein Trickel-Vorgang!");
                     return;
                 }
+
+                _isMessureThreadRunning = true;
                 startButtonSemaphore.increase();
                 powderQtyD = Convert.ToDecimal(powderQty.Text);
 
+                measureThread = new Thread(messure);
                 measureThread.Start();
                 _scaleData.IsScaleGuiActive = false;
                 _scaleData.StartButtonText = "Stop";
-            } else if (_scaleData.StartButtonText.Equals("Stop"))
-            {
+            } else if (_scaleData.StartButtonText.Equals("Stop")) {
                 _isMessureThreadRunning = false;
             }
         }

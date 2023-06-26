@@ -26,7 +26,7 @@ namespace AutoTricklerGui
             if (threads <= 0) {
                 throw new Exception("Derzeit sind keine Threads gebucht!");
             }
-            threads++;
+            threads--;
         }
     }
 }
