@@ -82,6 +82,7 @@ namespace AutoTricklerGui
             startButtonSemaphore.increase();
             powderQtyD = Convert.ToDecimal(powderQty.Text);
             new Thread(messure).Start();
+            _scaleData.IsScaleGuiActive = false;
         }
 
         private void Reset_Button_Click(object sender, RoutedEventArgs e) {

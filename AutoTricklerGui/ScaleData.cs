@@ -11,6 +11,7 @@ namespace AutoTricklerGui
     {
         private List<decimal> _scaleValues = new List<decimal>();
         private decimal _currentScaleValue = 0.00M;
+        private bool _isScaleGuiActive = true;
 
         public event PropertyChangedEventHandler? PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "") {
@@ -41,6 +42,14 @@ namespace AutoTricklerGui
             NotifyPropertyChanged("ExtremeSpread");
             NotifyPropertyChanged("AverageWeight");
             NotifyPropertyChanged("StandardDeviation");
+        }
+
+        public bool IsScaleGuiActive { 
+            get { return _isScaleGuiActive; } 
+            set { 
+                _isScaleGuiActive = value;
+                NotifyPropertyChanged();
+            }
         }
 
         public void ResetScaleValueList() { 
