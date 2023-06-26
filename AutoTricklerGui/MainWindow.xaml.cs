@@ -10,6 +10,7 @@ namespace AutoTricklerGui
 {
     public partial class MainWindow : Window
     {
+        private Semaphore startButtonSemaphore = new Semaphore(1);
         private SerialPortWrapper serialPort;
         private ScaleData _scaleData;
         private ScaleController scaleController;
@@ -69,9 +70,16 @@ namespace AutoTricklerGui
             Thread.Sleep(100);
 
             sp.Close();
+
+            startButtonSemaphore.decrease();
         }
 
         private void Start_Button_Click(object sender, RoutedEventArgs e) {
+            if(!startButtonSemaphore.isThreadAvailable()) {
+                MessageBox.Show("Es läuft bereits ein Trickel-Vorgang!");
+                return;
+            }
+            startButtonSemaphore.increase();
             powderQtyD = Convert.ToDecimal(powderQty.Text);
             new Thread(messure).Start();
         }
