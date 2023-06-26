@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AutoTricklerGui"
         mc:Ignorable="d"
         Name="mainWindow"
-        Title="Sqwan's automatischer Pulver-Trickler für G&amp;G PLC" Height="350" Width="600">
+        Title="Sqwan's automatischer Pulver-Trickler für G&amp;G PLC" Height="350" Width="700">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
@@ -60,12 +60,13 @@
 
         <ComboBox Grid.Column="4" Grid.Row="0" FontSize="30" SelectedIndex="0" Margin="3" Name="comPortsTrickler" IsEnabled="{Binding IsScaleGuiActive}">
         </ComboBox>
-        <ComboBox Grid.Column="4" Grid.Row="1" FontSize="30" SelectedIndex="4" Margin="3" Name="baudRatesTrickler" IsEnabled="{Binding IsScaleGuiActive}">
+        <ComboBox Grid.Column="4" Grid.Row="1" FontSize="30" SelectedIndex="5" Margin="3" Name="baudRatesTrickler" IsEnabled="{Binding IsScaleGuiActive}">
             <ComboBoxItem Content="600" />
             <ComboBoxItem Content="1200" />
             <ComboBoxItem Content="2400" />
             <ComboBoxItem Content="4800" />
             <ComboBoxItem Content="9600" />
+            <ComboBoxItem Content="115200" /> 
         </ComboBox>
 
         <Separator Grid.Row="4" Grid.ColumnSpan="5" />

@@ -41,10 +41,12 @@ namespace AutoTricklerGui
             new Thread(scaleController.requestScaleValue).Start();
         }
 
-        private void messure() {
+        private void messure(string comPortTricklerValue, string baudRatesTricklerValue) {
             _scaleData.addScaleValue(_scaleData.CurrentScaleValue);
 
-            SerialPort sp = new SerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
+            //SerialPort sp = new SerialPort("COM7", 115200, Parity.None, 8, StopBits.One); // Hier weiter
+            SerialPort sp = new SerialPort(comPortTricklerValue, int.Parse(baudRatesTricklerValue), Parity.None, 8, StopBits.One);
+
             sp.Handshake = Handshake.None;
             sp.ReadTimeout = 500;
             sp.WriteTimeout = 500;
@@ -91,7 +93,9 @@ namespace AutoTricklerGui
                 startButtonSemaphore.increase();
                 powderQtyD = Convert.ToDecimal(powderQty.Text);
 
-                measureThread = new Thread(messure);
+                string comPortTricklerValue = comPortsTrickler.Text;
+                string baudRatesTricklerValue = baudRatesTrickler.Text;
+                measureThread = new Thread(() => messure(comPortTricklerValue, baudRatesTricklerValue));
                 measureThread.Start();
                 _scaleData.IsScaleGuiActive = false;
                 _scaleData.StartButtonText = "Stop";
