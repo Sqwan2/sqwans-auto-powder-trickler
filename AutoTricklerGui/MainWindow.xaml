@@ -42,7 +42,7 @@
             PreviewTextInput="powderQty_PreviewTextInput">49
         </TextBox>
         <Label Grid.Column="2" Grid.Row="2" Content="Grain" FontSize="30" Margin="3" />
-        <Button Name="Start" Grid.Column="3" Grid.Row="2" Margin="3" FontSize="30" Click="Start_Button_Click" IsEnabled="{Binding IsScaleGuiActive}">Start</Button>
+        <Button Name="Start" Grid.Column="3" Grid.Row="2" Margin="3" FontSize="30" Click="Start_Button_Click" IsEnabled="true" Content="{Binding StartButtonText}"></Button>
         <Button Name="taraBtn" Grid.Column="2" Grid.Row="3" Margin="3" FontSize="30" Click="taraBtn_Click" IsEnabled="{Binding IsScaleGuiActive}">Tara</Button>
         <Button Name="cal" Grid.Column="3" Grid.Row="3" Margin="3" FontSize="30" IsEnabled="{Binding IsScaleGuiActive}">CAL</Button>
         <Button Name="reset" Grid.Column="1" Grid.Row="3" Margin="3" FontSize="30" Click="Reset_Button_Click" IsEnabled="{Binding IsScaleGuiActive}">Reset</Button>

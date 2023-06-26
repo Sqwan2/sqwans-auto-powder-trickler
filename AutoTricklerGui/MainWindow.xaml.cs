@@ -11,9 +11,11 @@ namespace AutoTricklerGui
     public partial class MainWindow : Window
     {
         private Semaphore startButtonSemaphore = new Semaphore(1);
+        private Thread measureThread;
         private SerialPortWrapper serialPort;
         private ScaleData _scaleData;
         private ScaleController scaleController;
+        private bool _isMessureThreadRunning = true;
         private delegate void SetTextDeleg(string text);
         public bool isEnabled = false;
 
@@ -37,6 +39,7 @@ namespace AutoTricklerGui
 
             this.DataContext = _scaleData;
 
+            measureThread = new Thread(messure);
             new Thread(scaleController.requestScaleValue).Start();
         }
 
@@ -49,7 +52,7 @@ namespace AutoTricklerGui
             sp.WriteTimeout = 500;
             sp.Open();
             
-            while (_scaleData.CurrentScaleValue < powderQtyD)
+            while (_scaleData.CurrentScaleValue < powderQtyD && _isMessureThreadRunning)
             {
                 if (_scaleData.CurrentScaleValue < (powderQtyD - 5))
                 {
@@ -72,17 +75,29 @@ namespace AutoTricklerGui
             sp.Close();
 
             startButtonSemaphore.decrease();
+            _scaleData.StartButtonText = "Start";
+            _scaleData.IsScaleGuiActive = true;
         }
 
         private void Start_Button_Click(object sender, RoutedEventArgs e) {
-            if(!startButtonSemaphore.isThreadAvailable()) {
-                MessageBox.Show("Es läuft bereits ein Trickel-Vorgang!");
-                return;
+
+            if (_scaleData.StartButtonText.Equals("Start"))
+            {
+                if (!startButtonSemaphore.isThreadAvailable())
+                {
+                    MessageBox.Show("Es läuft bereits ein Trickel-Vorgang!");
+                    return;
+                }
+                startButtonSemaphore.increase();
+                powderQtyD = Convert.ToDecimal(powderQty.Text);
+
+                measureThread.Start();
+                _scaleData.IsScaleGuiActive = false;
+                _scaleData.StartButtonText = "Stop";
+            } else if (_scaleData.StartButtonText.Equals("Stop"))
+            {
+                _isMessureThreadRunning = false;
             }
-            startButtonSemaphore.increase();
-            powderQtyD = Convert.ToDecimal(powderQty.Text);
-            new Thread(messure).Start();
-            _scaleData.IsScaleGuiActive = false;
         }
 
         private void Reset_Button_Click(object sender, RoutedEventArgs e) {

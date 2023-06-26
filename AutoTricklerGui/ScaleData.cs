@@ -12,6 +12,7 @@ namespace AutoTricklerGui
         private List<decimal> _scaleValues = new List<decimal>();
         private decimal _currentScaleValue = 0.00M;
         private bool _isScaleGuiActive = true;
+        private string _startButtonText = "Start";
 
         public event PropertyChangedEventHandler? PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "") {
@@ -48,6 +49,14 @@ namespace AutoTricklerGui
             get { return _isScaleGuiActive; } 
             set { 
                 _isScaleGuiActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string StartButtonText {
+            get { return _startButtonText; }
+            set {
+                _startButtonText = value;
                 NotifyPropertyChanged();
             }
         }
