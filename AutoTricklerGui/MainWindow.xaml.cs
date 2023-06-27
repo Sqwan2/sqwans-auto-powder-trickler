@@ -93,6 +93,10 @@ namespace AutoTricklerGui
                 startButtonSemaphore.increase();
                 powderQtyD = Convert.ToDecimal(powderQty.Text);
 
+
+                //string comPortTricklerValue = ((ComboBoxItem)comPortsTrickler.SelectedItem).Content.ToString();
+                //string baudRatesTricklerValue = ((ComboBoxItem)baudRatesTrickler.SelectedItem).Content.ToString();
+
                 string comPortTricklerValue = comPortsTrickler.Text;
                 string baudRatesTricklerValue = baudRatesTrickler.Text;
                 measureThread = new Thread(() => messure(comPortTricklerValue, baudRatesTricklerValue));
