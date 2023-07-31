@@ -63,7 +63,7 @@ namespace AutoTricklerGui
             {
                 if (_scaleData.CurrentScaleValue < (powderQtyD - 5))
                 {
-                    byte[] bytesToSend = { 0xFF };
+                    byte[] bytesToSend = { 0x07 }; // <<--- 04 mit Netzteil?
                     sp.Write(bytesToSend, 0, bytesToSend.Length);
                 } else {
                     var remainindPowder = powderQtyD - _scaleData.CurrentScaleValue; //Allways less than 5 due to if-statement
