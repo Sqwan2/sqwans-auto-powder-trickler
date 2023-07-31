@@ -102,6 +102,9 @@ namespace AutoTricklerGui
             private set { }
         }
 
+        public List<decimal> getScaleValues() {   
+            return _scaleValues;  
+        }
 
     }
 }

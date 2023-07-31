@@ -5,6 +5,15 @@ using System.IO.Ports;
 using System.Threading;
 using System.Windows.Controls;
 using static System.Net.Mime.MediaTypeNames;
+using System.Formats.Asn1;
+using System.Globalization;
+using System.IO;
+
+using CsvHelper;
+using System.Collections.Generic;
+using CsvHelper.Configuration;
+using System.Text;
+using Microsoft.Win32;
 
 namespace AutoTricklerGui
 {
@@ -42,8 +51,6 @@ namespace AutoTricklerGui
         }
 
         private void messure(string comPortTricklerValue, string baudRatesTricklerValue) {
-            _scaleData.addScaleValue(_scaleData.CurrentScaleValue);
-
             //SerialPort sp = new SerialPort("COM7", 115200, Parity.None, 8, StopBits.One); // Hier weiter
             SerialPort sp = new SerialPort(comPortTricklerValue, int.Parse(baudRatesTricklerValue), Parity.None, 8, StopBits.One);
 
@@ -77,14 +84,15 @@ namespace AutoTricklerGui
             startButtonSemaphore.decrease();
             _scaleData.StartButtonText = "Start";
             _scaleData.IsScaleGuiActive = true;
+
+            _scaleData.addScaleValue(_scaleData.CurrentScaleValue);
         }
 
         private void Start_Button_Click(object sender, RoutedEventArgs e) {
 
             if (_scaleData.StartButtonText.Equals("Start"))
             {
-                if (!startButtonSemaphore.isThreadAvailable())
-                {
+                if (!startButtonSemaphore.isThreadAvailable()) {
                     MessageBox.Show("Es läuft bereits ein Trickel-Vorgang!");
                     return;
                 }
@@ -92,7 +100,6 @@ namespace AutoTricklerGui
                 _isMessureThreadRunning = true;
                 startButtonSemaphore.increase();
                 powderQtyD = Convert.ToDecimal(powderQty.Text);
-
 
                 //string comPortTricklerValue = ((ComboBoxItem)comPortsTrickler.SelectedItem).Content.ToString();
                 //string baudRatesTricklerValue = ((ComboBoxItem)baudRatesTrickler.SelectedItem).Content.ToString();
@@ -136,6 +143,40 @@ namespace AutoTricklerGui
             serialPort.changeComPort(comPorts.SelectedItem.ToString());
             serialPort.SerialConnection.DataReceived += new SerialDataReceivedEventHandler(scaleController.ScaleDataReceivedHandler);
             scaleController.resetSemaphore();
+        }
+
+        private void export_button_click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "CSV Files (*.csv)|*.csv";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                var config = new CsvConfiguration(CultureInfo.CurrentCulture) { Delimiter = ";", Encoding = Encoding.UTF8 };
+
+                //using (var writer = new StreamWriter("filePersons.csv"))
+                using (var writer = new StreamWriter(saveFileDialog.FileName))
+                using (var csv = new CsvWriter(writer, config))
+                {
+                    List<ExportData> strList = new List<ExportData>();
+                    foreach (decimal d in _scaleData.getScaleValues())
+                    {
+                        ExportData exp = new ExportData();
+                        exp.ScaleValue = d;
+                        if (strList.Count <= 0)
+                        {
+                            exp.MinWeight = _scaleData.MinWeight.ToString();
+                            exp.MaxWeight = _scaleData.MaxWeight.ToString();
+                            exp.ExtremeSpread = _scaleData.ExtremeSpread.ToString();
+                            exp.AverageWeight = _scaleData.AverageWeight.ToString();
+                            exp.StandardDeviation = _scaleData.StandardDeviation.ToString();
+                        }
+
+                        strList.Add(exp);
+                    }
+
+                    csv.WriteRecords(strList);
+                }
+            }
         }
     }
 }

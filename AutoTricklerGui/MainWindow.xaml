@@ -47,6 +47,7 @@
         <Button Name="cal" Grid.Column="3" Grid.Row="3" Margin="3" FontSize="30" IsEnabled="{Binding IsScaleGuiActive}">CAL</Button>
         <Button Name="reset" Grid.Column="1" Grid.Row="3" Margin="3" FontSize="30" Click="Reset_Button_Click" IsEnabled="{Binding IsScaleGuiActive}">Reset</Button>
         <Label Name="Stk" Grid.Column="0" Grid.Row="3" Content="{Binding NumberOfWeighings}" FontSize="30" Margin="3" />
+        <Button Name="exp" Grid.Column="4" Grid.Row="3" Margin="3" FontSize="30" IsEnabled="{Binding IsScaleGuiActive}" Click="export_button_click">Export</Button>
 
         <ComboBox Grid.Column="3" Grid.Row="0" FontSize="30" SelectedIndex="0" Margin="3" Name="comPorts" SelectionChanged="comPorts_SelectionChanged" IsEnabled="{Binding IsScaleGuiActive}">
         </ComboBox>
